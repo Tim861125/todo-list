@@ -22,36 +22,43 @@
 </template>
 
 <script setup lang="ts">
-import type { Todo } from '@/types/todo'
-import TodoItem from './TodoItem.vue'
+import type { Todo } from "@/types/todo";
+import TodoItem from "./TodoItem.vue";
 
 interface Props {
-  todos: Todo[]
+  todos: Todo[];
 }
 
 interface Emits {
-  (e: 'toggle', id: string): void
-  (e: 'edit', todo: Todo): void
-  (e: 'delete', id: string): void
-  (e: 'add'): void
+  (e: "toggle", id: string): void;
+  (e: "edit", todo: Todo): void;
+  (e: "delete", id: string): void;
+  (e: "add"): void;
 }
 
-defineProps<Props>()
-defineEmits<Emits>()
+defineProps<Props>();
+defineEmits<Emits>();
 </script>
 
 <style scoped>
 .todo-list {
   width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .empty-state {
-  padding: 80px 20px;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
+  padding: 20px;
 }
 
 .empty-state :deep(.el-empty) {
-  padding: 40px 0;
+  padding: 0;
 }
 
 .empty-state :deep(.el-empty__image) {

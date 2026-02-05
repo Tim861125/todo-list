@@ -410,6 +410,7 @@ function handleClearCompleted() {
   min-height: 0;
   display: flex;
   flex-direction: column;
+  margin-bottom: 24px;
 }
 
 .toolbar {
