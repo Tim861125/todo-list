@@ -2,7 +2,9 @@
   <el-dialog
     v-model="dialogVisible"
     :title="isEditMode ? '編輯待辦事項' : '新增待辦事項'"
-    width="500px"
+    width="520px"
+    :close-on-click-modal="false"
+    class="todo-dialog"
     @close="handleClose"
   >
     <el-form
@@ -156,5 +158,106 @@ async function handleSubmit() {
 <style scoped>
 .el-select {
   width: 100%;
+}
+
+:deep(.el-dialog) {
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+:deep(.el-dialog__header) {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 24px 28px;
+  margin: 0;
+}
+
+:deep(.el-dialog__title) {
+  color: white;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+:deep(.el-dialog__headerbtn .el-dialog__close) {
+  color: white;
+  font-size: 20px;
+}
+
+:deep(.el-dialog__headerbtn:hover .el-dialog__close) {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+:deep(.el-dialog__body) {
+  padding: 28px;
+}
+
+:deep(.el-dialog__footer) {
+  padding: 20px 28px 28px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+:deep(.el-form-item__label) {
+  font-weight: 600;
+  color: #303133;
+}
+
+:deep(.el-input__inner),
+:deep(.el-textarea__inner) {
+  border-radius: 8px;
+  border: 2px solid #dcdfe6;
+  transition: all 0.3s;
+}
+
+:deep(.el-input__inner:focus),
+:deep(.el-textarea__inner:focus) {
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+:deep(.el-select .el-input__inner) {
+  cursor: pointer;
+}
+
+:deep(.el-date-editor) {
+  width: 100%;
+}
+
+:deep(.el-button) {
+  border-radius: 8px;
+  padding: 10px 24px;
+  font-weight: 500;
+  transition: all 0.3s;
+}
+
+:deep(.el-button--primary) {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+:deep(.el-button--primary:hover) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+}
+
+:deep(.el-button--default:hover) {
+  background-color: #f5f7fa;
+  border-color: #dcdfe6;
+}
+
+@media (max-width: 576px) {
+  :deep(.el-dialog) {
+    width: 95% !important;
+    margin: 0 auto;
+  }
+
+  :deep(.el-dialog__body) {
+    padding: 20px;
+  }
+
+  :deep(.el-form-item__label) {
+    text-align: left;
+  }
 }
 </style>

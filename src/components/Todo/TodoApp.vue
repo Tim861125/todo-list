@@ -1,75 +1,91 @@
 <template>
   <div class="todo-app">
-    <el-container>
+    <div class="app-container">
       <!-- 頂部標題和操作區 -->
-      <el-header class="header">
+      <header class="header">
         <div class="header-content">
           <h1 class="title">
-            <el-icon><Calendar /></el-icon>
-            每日待辦清單
+            <el-icon class="title-icon"><Calendar /></el-icon>
+            <span>每日待辦清單</span>
           </h1>
-          <div class="header-actions">
-            <el-button
-              type="primary"
-              :icon="Plus"
-              @click="openAddDialog"
-            >
-              新增待辦
-            </el-button>
-          </div>
+          <el-button
+            type="primary"
+            :icon="Plus"
+            size="large"
+            class="add-button"
+            @click="openAddDialog"
+          >
+            新增待辦
+          </el-button>
         </div>
-      </el-header>
+      </header>
 
-      <el-main class="main">
-        <!-- 統計資訊 -->
-        <el-row :gutter="16" class="stats">
-          <el-col :xs="12" :sm="6">
-            <el-card shadow="hover">
-              <div class="stat-item">
-                <div class="stat-label">總計</div>
-                <div class="stat-value">{{ todoStore.todos.length }}</div>
+      <!-- 主內容區域 -->
+      <main class="main-content">
+        <!-- 統計資訊卡片 -->
+        <div class="stats-section">
+          <el-row :gutter="20">
+            <el-col :xs="12" :sm="6">
+              <div class="stat-card">
+                <div class="stat-icon total">
+                  <el-icon><List /></el-icon>
+                </div>
+                <div class="stat-info">
+                  <div class="stat-value">{{ todoStore.todos.length }}</div>
+                  <div class="stat-label">總計</div>
+                </div>
               </div>
-            </el-card>
-          </el-col>
-          <el-col :xs="12" :sm="6">
-            <el-card shadow="hover">
-              <div class="stat-item">
-                <div class="stat-label">待完成</div>
-                <div class="stat-value text-primary">{{ todoStore.pendingTodos.length }}</div>
+            </el-col>
+            <el-col :xs="12" :sm="6">
+              <div class="stat-card">
+                <div class="stat-icon pending">
+                  <el-icon><Clock /></el-icon>
+                </div>
+                <div class="stat-info">
+                  <div class="stat-value">{{ todoStore.pendingTodos.length }}</div>
+                  <div class="stat-label">待完成</div>
+                </div>
               </div>
-            </el-card>
-          </el-col>
-          <el-col :xs="12" :sm="6">
-            <el-card shadow="hover">
-              <div class="stat-item">
-                <div class="stat-label">已完成</div>
-                <div class="stat-value text-success">{{ todoStore.completedTodos.length }}</div>
+            </el-col>
+            <el-col :xs="12" :sm="6">
+              <div class="stat-card">
+                <div class="stat-icon completed">
+                  <el-icon><Check /></el-icon>
+                </div>
+                <div class="stat-info">
+                  <div class="stat-value">{{ todoStore.completedTodos.length }}</div>
+                  <div class="stat-label">已完成</div>
+                </div>
               </div>
-            </el-card>
-          </el-col>
-          <el-col :xs="12" :sm="6">
-            <el-card shadow="hover">
-              <div class="stat-item">
-                <div class="stat-label">今日待辦</div>
-                <div class="stat-value text-warning">{{ todoStore.todayTodos.length }}</div>
+            </el-col>
+            <el-col :xs="12" :sm="6">
+              <div class="stat-card">
+                <div class="stat-icon today">
+                  <el-icon><Calendar /></el-icon>
+                </div>
+                <div class="stat-info">
+                  <div class="stat-value">{{ todoStore.todayTodos.length }}</div>
+                  <div class="stat-label">今日待辦</div>
+                </div>
               </div>
-            </el-card>
-          </el-col>
-        </el-row>
+            </el-col>
+          </el-row>
+        </div>
 
-        <!-- 篩選和排序 -->
-        <el-card class="filter-bar" shadow="never">
-          <div class="filter-content">
-            <el-radio-group v-model="filterType" size="default">
-              <el-radio-button value="all">全部 ({{ todoStore.todos.length }})</el-radio-button>
-              <el-radio-button value="pending">待完成 ({{ todoStore.pendingTodos.length }})</el-radio-button>
-              <el-radio-button value="completed">已完成 ({{ todoStore.completedTodos.length }})</el-radio-button>
-              <el-radio-button value="today">今日 ({{ todoStore.todayTodos.length }})</el-radio-button>
+        <!-- 列表容器卡片 -->
+        <div class="list-section">
+          <!-- 篩選和排序工具列 -->
+          <div class="toolbar">
+            <el-radio-group v-model="filterType" size="default" class="filter-tabs">
+              <el-radio-button value="all">全部</el-radio-button>
+              <el-radio-button value="pending">待完成</el-radio-button>
+              <el-radio-button value="completed">已完成</el-radio-button>
+              <el-radio-button value="today">今日</el-radio-button>
             </el-radio-group>
 
-            <div class="filter-actions">
-              <el-dropdown @command="handleSort">
-                <el-button :icon="Sort">
+            <div class="toolbar-actions">
+              <el-dropdown @command="handleSort" trigger="click">
+                <el-button :icon="Sort" class="action-button">
                   排序
                   <el-icon class="el-icon--right"><ArrowDown /></el-icon>
                 </el-button>
@@ -90,26 +106,27 @@
               <el-button
                 v-if="todoStore.completedTodos.length > 0"
                 :icon="Delete"
+                class="action-button clear-button"
                 @click="handleClearCompleted"
               >
                 清除已完成
               </el-button>
             </div>
           </div>
-        </el-card>
 
-        <!-- 待辦列表 -->
-        <div class="todo-list-container">
-          <TodoList
-            :todos="filteredTodos"
-            @toggle="handleToggle"
-            @edit="openEditDialog"
-            @delete="handleDelete"
-            @add="openAddDialog"
-          />
+          <!-- 待辦列表 -->
+          <div class="todo-list-wrapper">
+            <TodoList
+              :todos="filteredTodos"
+              @toggle="handleToggle"
+              @edit="openEditDialog"
+              @delete="handleDelete"
+              @add="openAddDialog"
+            />
+          </div>
         </div>
-      </el-main>
-    </el-container>
+      </main>
+    </div>
 
     <!-- 新增/編輯對話框 -->
     <TodoForm
@@ -131,6 +148,9 @@ import {
   ArrowDown,
   Star,
   Delete,
+  List,
+  Clock,
+  Check,
 } from '@element-plus/icons-vue'
 import { useTodoStore } from '@/stores/useTodoStore'
 import type { Todo, TodoFormData } from '@/types/todo'
@@ -224,116 +244,277 @@ function handleClearCompleted() {
 <style scoped>
 .todo-app {
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  padding: 20px;
+  padding: 24px 16px;
 }
 
-.el-container {
+.app-container {
   max-width: 1200px;
   margin: 0 auto;
 }
 
+/* 頭部樣式 */
 .header {
-  height: auto;
-  padding: 20px 0;
+  margin-bottom: 32px;
 }
 
 .header-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 20px;
   flex-wrap: wrap;
-  gap: 16px;
 }
 
 .title {
   display: flex;
   align-items: center;
-  gap: 12px;
-  font-size: 32px;
-  font-weight: 600;
+  gap: 16px;
+  font-size: 36px;
+  font-weight: 700;
   color: white;
   margin: 0;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
-.title .el-icon {
-  font-size: 36px;
+.title-icon {
+  font-size: 42px;
+  animation: pulse 2s ease-in-out infinite;
 }
 
-.main {
-  padding: 20px 0;
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
 }
 
-.stats {
-  margin-bottom: 24px;
+.add-button {
+  height: 44px;
+  padding: 0 28px;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 22px;
+  box-shadow: 0 4px 12px rgba(64, 158, 255, 0.3);
+  transition: all 0.3s ease;
 }
 
-.stat-item {
-  text-align: center;
+.add-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(64, 158, 255, 0.4);
+}
+
+/* 主內容區域 */
+.main-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* 統計卡片區域 */
+.stats-section {
+  animation: fadeInUp 0.6s ease;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.stat-card {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.stat-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  color: white;
+}
+
+.stat-icon.total {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.stat-icon.pending {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.stat-icon.completed {
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+}
+
+.stat-icon.today {
+  background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+}
+
+.stat-info {
+  flex: 1;
+}
+
+.stat-value {
+  font-size: 32px;
+  font-weight: 700;
+  color: #303133;
+  line-height: 1;
+  margin-bottom: 6px;
 }
 
 .stat-label {
   font-size: 14px;
   color: #909399;
-  margin-bottom: 8px;
+  font-weight: 500;
 }
 
-.stat-value {
-  font-size: 28px;
-  font-weight: 600;
-  color: #303133;
+/* 列表區域 */
+.list-section {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  animation: fadeInUp 0.6s ease 0.1s both;
 }
 
-.stat-value.text-primary {
-  color: #409eff;
-}
-
-.stat-value.text-success {
-  color: #67c23a;
-}
-
-.stat-value.text-warning {
-  color: #e6a23c;
-}
-
-.filter-bar {
-  margin-bottom: 24px;
-}
-
-.filter-content {
+.toolbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
+  padding: 20px 24px;
+  border-bottom: 1px solid #f0f0f0;
   gap: 16px;
+  flex-wrap: wrap;
+  background: linear-gradient(to bottom, #fafafa 0%, white 100%);
 }
 
-.filter-actions {
+.filter-tabs {
+  flex-shrink: 0;
+}
+
+.toolbar-actions {
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
 }
 
-.todo-list-container {
-  background: white;
+.action-button {
   border-radius: 8px;
-  padding: 20px;
+  font-weight: 500;
+}
+
+.clear-button {
+  color: #f56c6c;
+  border-color: #f56c6c;
+}
+
+.clear-button:hover {
+  background-color: #fef0f0;
+  color: #f56c6c;
+  border-color: #f56c6c;
+}
+
+.todo-list-wrapper {
+  padding: 24px;
   min-height: 400px;
 }
 
+/* 響應式設計 */
 @media (max-width: 768px) {
-  .title {
-    font-size: 24px;
+  .todo-app {
+    padding: 16px 12px;
   }
 
-  .filter-content {
+  .header {
+    margin-bottom: 24px;
+  }
+
+  .title {
+    font-size: 28px;
+  }
+
+  .title-icon {
+    font-size: 32px;
+  }
+
+  .add-button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .main-content {
+    gap: 20px;
+  }
+
+  .stat-card {
+    padding: 20px;
+  }
+
+  .stat-icon {
+    width: 48px;
+    height: 48px;
+    font-size: 22px;
+  }
+
+  .stat-value {
+    font-size: 28px;
+  }
+
+  .toolbar {
+    padding: 16px;
     flex-direction: column;
     align-items: stretch;
   }
 
-  .filter-actions {
+  .filter-tabs {
+    width: 100%;
+  }
+
+  .filter-tabs :deep(.el-radio-button__inner) {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+
+  .toolbar-actions {
     width: 100%;
     justify-content: space-between;
+  }
+
+  .action-button {
+    flex: 1;
+  }
+
+  .todo-list-wrapper {
+    padding: 16px;
+  }
+}
+
+@media (max-width: 576px) {
+  .filter-tabs :deep(.el-radio-button__inner) {
+    padding: 8px 8px;
+    font-size: 12px;
+  }
+
+  .stat-card {
+    padding: 16px;
   }
 }
 </style>

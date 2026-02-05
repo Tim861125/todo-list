@@ -156,16 +156,28 @@ function handleDelete() {
 
 <style scoped>
 .todo-item {
-  margin-bottom: 12px;
-  transition: all 0.3s;
-}
-
-.todo-item.completed {
-  opacity: 0.6;
+  margin-bottom: 16px;
+  border-radius: 12px;
+  border: 2px solid transparent;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background: white;
+  overflow: hidden;
 }
 
 .todo-item:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-color: #e0e6ff;
+  box-shadow: 0 4px 16px rgba(102, 126, 234, 0.12);
+  transform: translateY(-2px);
+}
+
+.todo-item.completed {
+  opacity: 0.7;
+  background: linear-gradient(to right, #f8f9fa 0%, white 100%);
+}
+
+.todo-item.completed:hover {
+  border-color: #e8e8e8;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .todo-content {
@@ -173,71 +185,140 @@ function handleDelete() {
   justify-content: space-between;
   align-items: flex-start;
   gap: 16px;
+  padding: 4px;
 }
 
 .todo-left {
   display: flex;
-  gap: 12px;
+  gap: 14px;
   flex: 1;
   min-width: 0;
+  align-items: flex-start;
 }
 
 .todo-info {
   flex: 1;
   min-width: 0;
+  padding-top: 2px;
 }
 
 .todo-title {
   font-size: 16px;
-  font-weight: 500;
-  margin-bottom: 4px;
+  font-weight: 600;
+  margin-bottom: 6px;
   word-break: break-word;
+  color: #303133;
+  line-height: 1.5;
 }
 
 .todo-title.completed-text {
   text-decoration: line-through;
   color: #909399;
+  font-weight: 500;
 }
 
 .todo-description {
   font-size: 14px;
   color: #606266;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   word-break: break-word;
+  line-height: 1.6;
 }
 
 .todo-meta {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   flex-wrap: wrap;
 }
 
 .due-date {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 5px;
   font-size: 13px;
   color: #606266;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: #f5f7fa;
+  font-weight: 500;
+}
+
+.due-date .el-icon {
+  font-size: 14px;
 }
 
 .due-date.overdue {
   color: #f56c6c;
-  font-weight: 500;
+  background: #fef0f0;
 }
 
 .due-date.today {
   color: #e6a23c;
-  font-weight: 500;
+  background: #fdf6ec;
 }
 
 .due-date.soon {
   color: #409eff;
+  background: #ecf5ff;
 }
 
 .todo-actions {
   display: flex;
   gap: 8px;
   flex-shrink: 0;
+  opacity: 0.6;
+  transition: opacity 0.3s;
+}
+
+.todo-item:hover .todo-actions {
+  opacity: 1;
+}
+
+/* 深度選擇器用於 Element Plus 組件 */
+.todo-item :deep(.el-card__body) {
+  padding: 20px;
+}
+
+.todo-item :deep(.el-checkbox) {
+  height: 20px;
+}
+
+.todo-item :deep(.el-checkbox__inner) {
+  width: 20px;
+  height: 20px;
+  border-width: 2px;
+  border-radius: 6px;
+}
+
+.todo-item :deep(.el-checkbox__input.is-checked .el-checkbox__inner) {
+  background-color: #67c23a;
+  border-color: #67c23a;
+}
+
+.todo-item :deep(.el-tag) {
+  font-weight: 600;
+  border: none;
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+
+@media (max-width: 768px) {
+  .todo-content {
+    gap: 12px;
+  }
+
+  .todo-left {
+    gap: 10px;
+  }
+
+  .todo-actions {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .todo-actions {
+    opacity: 1;
+  }
 }
 </style>
