@@ -64,13 +64,15 @@ defineEmits<Emits>();
 .empty-state :deep(.el-empty__image) {
   width: 160px;
   height: 160px;
+  opacity: 0.6;
 }
 
 .empty-state :deep(.el-empty__description) {
   font-size: 16px;
-  color: #909399;
+  color: #90a4ae;
   margin-top: 20px;
   font-weight: 500;
+  text-shadow: 0 0 10px rgba(144, 164, 174, 0.3);
 }
 
 .empty-state :deep(.el-button) {
@@ -79,13 +81,22 @@ defineEmits<Emits>();
   padding: 0 32px;
   font-size: 15px;
   border-radius: 22px;
-  box-shadow: 0 4px 12px rgba(64, 158, 255, 0.3);
+  background: linear-gradient(135deg, #42a5f5 0%, #1e88e5 100%);
+  border: 1px solid rgba(100, 181, 246, 0.3);
+  color: white;
+  box-shadow:
+    0 4px 12px rgba(30, 136, 229, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
   transition: all 0.3s ease;
 }
 
 .empty-state :deep(.el-button:hover) {
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(64, 158, 255, 0.4);
+  box-shadow:
+    0 6px 20px rgba(30, 136, 229, 0.6),
+    0 0 30px rgba(66, 165, 245, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  background: linear-gradient(135deg, #4fc3f7 0%, #2196f3 100%);
 }
 
 /* 列表過渡動畫 */

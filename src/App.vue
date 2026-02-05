@@ -17,7 +17,10 @@ body {
   font-family:
     -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue",
     Arial, "Noto Sans TC", sans-serif;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #0a0e27;
+  background-image:
+    radial-gradient(ellipse at top, #1a1f3a 0%, transparent 50%),
+    radial-gradient(ellipse at bottom, #0d1228 0%, transparent 50%);
   background-attachment: fixed;
   overflow: hidden;
 }

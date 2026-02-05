@@ -158,26 +158,52 @@ function handleDelete() {
 .todo-item {
   margin-bottom: 16px;
   border-radius: 12px;
-  border: 2px solid transparent;
+  border: 1px solid rgba(100, 181, 246, 0.15);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  background: white;
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.6) 0%, rgba(15, 23, 42, 0.6) 100%);
+  backdrop-filter: blur(10px);
   overflow: hidden;
+  position: relative;
+  box-shadow:
+    0 2px 10px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.todo-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(100, 181, 246, 0.5), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.todo-item:hover::before {
+  opacity: 1;
 }
 
 .todo-item:hover {
-  border-color: #e0e6ff;
-  box-shadow: 0 4px 16px rgba(102, 126, 234, 0.12);
+  border-color: rgba(100, 181, 246, 0.4);
+  box-shadow:
+    0 4px 20px rgba(0, 0, 0, 0.5),
+    0 0 30px rgba(100, 181, 246, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
   transform: translateY(-2px);
 }
 
 .todo-item.completed {
-  opacity: 0.7;
-  background: linear-gradient(to right, #f8f9fa 0%, white 100%);
+  opacity: 0.5;
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.4) 0%, rgba(15, 23, 42, 0.4) 100%);
 }
 
 .todo-item.completed:hover {
-  border-color: #e8e8e8;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border-color: rgba(100, 181, 246, 0.2);
+  box-shadow:
+    0 2px 10px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
 .todo-content {
@@ -207,19 +233,21 @@ function handleDelete() {
   font-weight: 600;
   margin-bottom: 6px;
   word-break: break-word;
-  color: #303133;
+  color: #e8eaf6;
   line-height: 1.5;
+  text-shadow: 0 0 5px rgba(100, 181, 246, 0.2);
 }
 
 .todo-title.completed-text {
   text-decoration: line-through;
-  color: #909399;
+  color: #78909c;
   font-weight: 500;
+  text-shadow: none;
 }
 
 .todo-description {
   font-size: 14px;
-  color: #606266;
+  color: #90a4ae;
   margin-bottom: 10px;
   word-break: break-word;
   line-height: 1.6;
@@ -237,10 +265,11 @@ function handleDelete() {
   align-items: center;
   gap: 5px;
   font-size: 13px;
-  color: #606266;
+  color: #90a4ae;
   padding: 4px 10px;
   border-radius: 6px;
-  background: #f5f7fa;
+  background: rgba(15, 23, 42, 0.5);
+  border: 1px solid rgba(100, 181, 246, 0.1);
   font-weight: 500;
 }
 
@@ -249,18 +278,24 @@ function handleDelete() {
 }
 
 .due-date.overdue {
-  color: #f56c6c;
-  background: #fef0f0;
+  color: #ef5350;
+  background: rgba(211, 47, 47, 0.15);
+  border-color: rgba(239, 83, 80, 0.3);
+  box-shadow: 0 0 10px rgba(239, 83, 80, 0.2);
 }
 
 .due-date.today {
-  color: #e6a23c;
-  background: #fdf6ec;
+  color: #ffb74d;
+  background: rgba(245, 124, 0, 0.15);
+  border-color: rgba(255, 183, 77, 0.3);
+  box-shadow: 0 0 10px rgba(255, 183, 77, 0.2);
 }
 
 .due-date.soon {
-  color: #409eff;
-  background: #ecf5ff;
+  color: #64b5f6;
+  background: rgba(25, 118, 210, 0.15);
+  border-color: rgba(100, 181, 246, 0.3);
+  box-shadow: 0 0 10px rgba(100, 181, 246, 0.2);
 }
 
 .todo-actions {
@@ -278,6 +313,7 @@ function handleDelete() {
 /* 深度選擇器用於 Element Plus 組件 */
 .todo-item :deep(.el-card__body) {
   padding: 20px;
+  background: transparent;
 }
 
 .todo-item :deep(.el-checkbox) {
@@ -289,18 +325,45 @@ function handleDelete() {
   height: 20px;
   border-width: 2px;
   border-radius: 6px;
+  background: rgba(15, 23, 42, 0.6);
+  border-color: rgba(100, 181, 246, 0.3);
+  transition: all 0.3s;
 }
 
 .todo-item :deep(.el-checkbox__input.is-checked .el-checkbox__inner) {
-  background-color: #67c23a;
-  border-color: #67c23a;
+  background-color: #81c784;
+  border-color: #81c784;
+  box-shadow: 0 0 15px rgba(129, 199, 132, 0.6);
+}
+
+.todo-item :deep(.el-checkbox__inner::after) {
+  border-color: #e8eaf6;
 }
 
 .todo-item :deep(.el-tag) {
   font-weight: 600;
-  border: none;
+  border: 1px solid;
   padding: 4px 10px;
   border-radius: 6px;
+  background: rgba(15, 23, 42, 0.5);
+}
+
+.todo-item :deep(.el-tag--danger) {
+  color: #ef5350;
+  border-color: rgba(239, 83, 80, 0.3);
+  background: rgba(211, 47, 47, 0.15);
+}
+
+.todo-item :deep(.el-tag--warning) {
+  color: #ffb74d;
+  border-color: rgba(255, 183, 77, 0.3);
+  background: rgba(245, 124, 0, 0.15);
+}
+
+.todo-item :deep(.el-tag--info) {
+  color: #90a4ae;
+  border-color: rgba(144, 164, 174, 0.3);
+  background: rgba(69, 90, 100, 0.15);
 }
 
 @media (max-width: 768px) {
