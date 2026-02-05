@@ -243,18 +243,27 @@ function handleClearCompleted() {
 
 <style scoped>
 .todo-app {
-  min-height: 100vh;
+  height: 100vh;
   padding: 24px 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 .app-container {
   max-width: 1200px;
   margin: 0 auto;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 /* 頭部樣式 */
 .header {
-  margin-bottom: 32px;
+  margin-bottom: 24px;
+  flex-shrink: 0;
 }
 
 .header-content {
@@ -305,12 +314,16 @@ function handleClearCompleted() {
 .main-content {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 20px;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
 }
 
 /* 統計卡片區域 */
 .stats-section {
   animation: fadeInUp 0.6s ease;
+  flex-shrink: 0;
 }
 
 @keyframes fadeInUp {
@@ -393,6 +406,10 @@ function handleClearCompleted() {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   overflow: hidden;
   animation: fadeInUp 0.6s ease 0.1s both;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .toolbar {
@@ -404,6 +421,7 @@ function handleClearCompleted() {
   gap: 16px;
   flex-wrap: wrap;
   background: linear-gradient(to bottom, #fafafa 0%, white 100%);
+  flex-shrink: 0;
 }
 
 .filter-tabs {
@@ -434,7 +452,26 @@ function handleClearCompleted() {
 
 .todo-list-wrapper {
   padding: 24px;
-  min-height: 400px;
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.todo-list-wrapper::-webkit-scrollbar {
+  width: 8px;
+}
+
+.todo-list-wrapper::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.todo-list-wrapper::-webkit-scrollbar-thumb {
+  background: #dcdfe6;
+  border-radius: 4px;
+}
+
+.todo-list-wrapper::-webkit-scrollbar-thumb:hover {
+  background: #c0c4cc;
 }
 
 /* 響應式設計 */
@@ -444,7 +481,7 @@ function handleClearCompleted() {
   }
 
   .header {
-    margin-bottom: 24px;
+    margin-bottom: 16px;
   }
 
   .title {
@@ -461,7 +498,7 @@ function handleClearCompleted() {
   }
 
   .main-content {
-    gap: 20px;
+    gap: 16px;
   }
 
   .stat-card {
